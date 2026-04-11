@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVE PUMP | Liliana Palanca</title>
+    <meta name="description" content="DJ, Artista e Dançarina baseada em Bergen, Noruega. Co-fundadora do Klubb Diáspora.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Space+Grotesk:wght@300;400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Cinematic Intro -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Swiper.js for Slow Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#FFFFFF',
+                        dark: '#000000',
+                        accent: '#333333',
+                    },
+                    fontFamily: {
+                        heading: ['Syne', 'sans-serif'],
+                        body: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Intro Strobe Effect */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .flash-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        .star-flash {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 0;
+            transform: scale(0);
+            z-index: 10000;
+        }
+
+        /* Main Content Visibility */
+        #main-content {
+            opacity: 0;
+        }
+
+        /* Swiper Customization */
+        .swiper-hero {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        /* Navigation Hover */
+        .nav-link {
+            position: relative;
+            transition: opacity 0.3s ease;
+        }
+        .nav-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-title {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        /* FAQ Accordion Style */
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .faq-question {
+            cursor: pointer;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease;
+            opacity: 0;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 2rem;
+            opacity: 0.7;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Cinematic Intro -->
+    <div id="intro-overlay">
+        <img src="https://images.unsplash.com/photo-1574672280600-4accfa5b6f98?q=80&w=2070" class="flash-img" alt="Flash 1">
+        <img src="https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?q=80&w=2070" class="flash-img" alt="Flash 2">
+        <img src="https://images.unsplash.com/photo-1514525253344-a812bb93b85b?q=80&w=2071" class="flash-img" alt="Flash 3">
+        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070" class="flash-img" alt="Flash 4">
+        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2070" class="flash-img" alt="Flash 5">
+        <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=2069" class="flash-img" alt="Flash 6">
+        <div class="star-flash"></div>
+    </div>
+
+    <div id="main-content">
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 px-8 py-10 flex justify-between items-center mix-blend-difference">
+            <a href="#" class="font-heading text-3xl tracking-tighter">LOVE PUMP</a>
+            
+            <div class="hidden md:flex gap-12 font-mono text-[10px] uppercase tracking-[0.4em]">
+                <a href="#bio" class="nav-link">História</a>
+                <a href="#mixes" class="nav-link">Mixes</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="nav-link">Booking</a>
+            </div>
+
+            <div class="font-mono text-[10px] uppercase tracking-widest opacity-60">
+                Bergen / NO
+            </div>
+        </nav>
+
+        <!-- Hero Carousel -->
+        <section class="relative h-screen w-full overflow-hidden">
+            <div class="swiper swiper-hero">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=2070" alt="Performance 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1520110120385-81262c3f5601?q=80&w=2070" alt="Performance 2">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070" alt="Performance 3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute inset-0 z-10 flex flex-col justify-center items-center pointer-events-none">
+                <h1 class="font-heading text-[12vw] leading-[0.8] tracking-tighter text-center uppercase">
+                    Liliana<br>Palanca
+                </h1>
+                <p class="font-mono text-[10px] uppercase tracking-[0.8em] mt-12 opacity-70">Dancer • DJ • Curator</p>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce opacity-30">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+            </div>
+        </section>
+
+        <!-- Biography Section -->
+        <section id="bio" class="py-40 px-8 md:px-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-1 hidden lg:block">
+                <span class="section-title font-mono text-[10px] uppercase tracking-[0.5em] opacity-30">Identity</span>
+            </div>
+            <div class="lg:col-span-7 space-y-12">
+                <h2 class="font-heading text-5xl md:text-8xl tracking-tighter uppercase leading-none">
+                    De Setúbal<br>para Bergen.
+                </h2>
+                <div class="font-body text-xl md:text-2xl leading-relaxed space-y-8 opacity-80 max-w-3xl">
+                    <p>
+                        Filha de pais angolanos, Liliana Palanca (Love Pump) cresceu entre o Semba de Paulo Flores e as batidas do Kuduro. A sua arte é a ponte entre as suas raízes e a cena eletrónica da Noruega.
+                    </p>
+                    <p>
+                        Inspirada pela irmã Miss Tati, Liliana começou como vocalista e bailarina, incendiando pistas com Afro House. Em 2021, estreou-se como DJ no Hot Hot Hot Festival em Bergen, e desde então tem levado a sua curadoria sonora a rádios como Reprezent (Londres) e Piñata (França).
+                    </p>
+                </div>
+            </div>
+            <div class="lg:col-span-4 flex items-end">
+                <div class="aspect-[3/4] w-full bg-accent overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1000" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Liliana Portrait">
+                </div>
+            </div>
+        </section>
+
+        <!-- Mixes Section -->
+        <section id="mixes" class="py-40 bg-zinc-950 px-8 md:px-24">
+            <div class="flex justify-between items-end mb-20">
+                <h2 class="font-heading text-6xl md:text-9xl tracking-tighter uppercase">Sound</h2>
+                <a href="https://soundcloud.com/liliana-palanca" target="_blank" class="font-mono text-[10px] uppercase tracking-widest border-b border-white pb-2 hover:opacity-50 transition-opacity">Ver SoundCloud</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
+                <div class="bg-dark p-12 group hover:bg-white hover:text-dark transition-colors duration-500">
+                    <span class="font-mono text-xs opacity-50 mb-4 block">01 / Radio Mix</span>
+                    <h3 class="font-heading text-3xl uppercase mb-8">Reprezent Radio London</h3>
+                    <p class="font-body opacity-60 group-hover:opacity-100">Uma exploração profunda do Afro-Diaspórico e ritmos ancestrais.</p>
+                </div>
+                <div class="bg-dark p-12 group hover:bg-white hover:text-dark transition-colors duration-500">
+                    <span class="font-mono text-xs opacity-50 mb-4 block">02 / Festival Set</span>
+                    <h3 class="font-heading text-3xl uppercase mb-8">Øya Festival 2023</h3>
+                    <p class="font-body opacity-60 group-hover:opacity-100">Energia pura capturada num dos maiores palcos da Noruega.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-40 px-8 md:px-24 bg-black">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="font-heading text-5xl md:text-7xl tracking-tighter uppercase mb-20">Perguntas Frequentes</h2>
+                
+                <div class="space-y-4">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h3 class="font-heading text-xl md:text-2xl uppercase">Quais são os géneros musicais predominantes?</h3>
+                            <span class="faq-icon text-3xl">+</span>
+                        </div>
+                        <div class="faq-answer font-body text-lg">
+                            Os meus sets focam-se na diáspora africana, incluindo Afro House, Kuduro, Amapiano, Gqom e Batida, fundindo-os com texturas eletrónicas contemporâneas.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h3 class="font-heading text-xl md:text-2xl uppercase">Está disponível para eventos internacionais?</h3>
+                            <span class="faq-icon text-3xl">+</span>
+                        </div>
+                        <div class="faq-answer font-body text-lg">
+                            Sim, viajo regularmente para atuações em festivais, clubes e eventos culturais por toda a Europa e além.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h3 class="font-heading text-xl md:text-2xl uppercase">O que é o Klubb Diáspora?</h3>
+                            <span class="faq-icon text-3xl">+</span>
+                        </div>
+                        <div class="faq-answer font-body text-lg">
+                            É um coletivo e conceito de festa fundado em Bergen que celebra a música e cultura africana, criando espaços seguros e vibrantes para a comunidade.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <h3 class="font-heading text-xl md:text-2xl uppercase">Como posso solicitar um booking?</h3>
+                            <span class="faq-icon text-3xl">+</span>
+                        </div>
+                        <div class="faq-answer font-body text-lg">
+                            Pode utilizar o formulário de contacto abaixo ou enviar um email direto para booking@djlovepump.com com os detalhes do evento.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-40 px-8 md:px-24 border-t border-white/5">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-24">
+                <div class="space-y-12">
+                    <h2 class="font-heading text-6xl md:text-8xl tracking-tighter uppercase">Booking</h2>
+                    <div class="space-y-4 font-mono text-sm tracking-widest">
+                        <p class="opacity-50">Direct Inquiries:</p>
+                        <a href="mailto:booking@djlovepump.com" class="text-2xl md:text-4xl block hover:opacity-50 transition-opacity">booking@djlovepump.com</a>
+                    </div>
+                </div>
+                
+                <form class="space-y-12" action="#" method="POST">
+                    <div class="border-b border-white/20 pb-4">
+                        <input type="text" name="name" required placeholder="NOME" class="bg-transparent w-full font-heading text-2xl focus:outline-none placeholder:opacity-20">
+                    </div>
+                    <div class="border-b border-white/20 pb-4">
+                        <input type="email" name="email" required placeholder="EMAIL" class="bg-transparent w-full font-heading text-2xl focus:outline-none placeholder:opacity-20">
+                    </div>
+                    <div class="border-b border-white/20 pb-4">
+                        <textarea name="message" required placeholder="MENSAGEM" rows="1" class="bg-transparent w-full font-heading text-2xl focus:outline-none placeholder:opacity-20 resize-none"></textarea>
+                    </div>
+                    <button type="submit" class="font-mono text-[10px] uppercase tracking-[0.5em] border border-white px-12 py-6 hover:bg-white hover:text-dark transition-all duration-500 w-full md:w-auto">
+                        Enviar Pedido
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-20 px-8 border-t border-white/5 flex flex-col items-center gap-12">
+            <div class="flex gap-10">
+                <a href="https://instagram.com/love_pump" target="_blank" class="hover:scale-110 transition-transform">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://soundcloud.com/liliana-palanca" target="_blank" class="hover:scale-110 transition-transform">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M18 21V14M6 21v-5M15 21V12M9 21V13M21 21v-4M3 21v-2"/></svg>
+                </a>
+                <a href="mailto:booking@djlovepump.com" class="hover:scale-110 transition-transform">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </a>
+            </div>
+            <p class="font-mono text-[8px] uppercase tracking-[0.5em] opacity-30">
+                &copy; <span id="year"></span> LOVE PUMP. ALL RIGHTS RESERVED.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Intro Animation Logic
+        window.addEventListener('DOMContentLoaded', () => {
+            const flashImgs = document.querySelectorAll('.flash-img');
+            const starFlash = document.querySelector('.star-flash');
+            const introOverlay = document.querySelector('#intro-overlay');
+            const mainContent = document.querySelector('#main-content');
+            
+            const tl = gsap.timeline();
+
+            flashImgs.forEach((img, index) => {
+                tl.set(img, { display: 'block' }, index * 0.1);
+                if (index > 0) {
+                    tl.set(flashImgs[index-1], { display: 'none' }, index * 0.1);
+                }
+            });
+
+            tl.to(starFlash, { 
+                opacity: 1, 
+                scale: 80, 
+                duration: 0.8, 
+                ease: "power4.in" 
+            }, "+=0.1");
+
+            tl.to(introOverlay, {
+                opacity: 0,
+                duration: 0.5,
+                onComplete: () => {
+                    introOverlay.style.display = 'none';
+                }
+            });
+
+            tl.to(mainContent, {
+                opacity: 1,
+                duration: 1
+            }, "-=0.3");
+
+            // Initialize Swiper
+            new Swiper('.swiper-hero', {
+                effect: 'fade',
+                speed: 3000,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                loop: true,
+            });
+
+            // Set Year
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+        // FAQ Toggle Logic
+        function toggleFaq(element) {
+            const item = element.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all other items
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            
+            // Toggle current item
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
