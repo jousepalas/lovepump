@@ -1,418 +1,470 @@
 <!DOCTYPE html>
-<html lang="pt-PT" class="scroll-smooth">
+<html lang="en" class="no-js">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVE PUMP | Liliana Palanca</title>
-    <meta name="description" content="DJ, Artista e Dançarina baseada em Bergen, Noruega. Co-fundadora do Klubb Diáspora.">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Space+Grotesk:wght@300;400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- GSAP for Cinematic Intro -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    
-    <!-- Swiper.js for Slow Carousel -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Love Pump — DJ & Selecta · Bergen</title>
+  <meta name="description" content="Love Pump — DJ and selecta based in Bergen, with roots in Lisboa and Luanda. Kuduro, afro house, baile funk, kizomba, amapiano, gqom. Mixes, agenda, booking and partnerships.">
+  <meta name="theme-color" content="#0b0a09">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://lovepump.no/">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: '#FFFFFF',
-                        dark: '#000000',
-                        accent: '#333333',
-                    },
-                    fontFamily: {
-                        heading: ['Syne', 'sans-serif'],
-                        body: ['Space Grotesk', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                }
-            }
-        }
-    </script>
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Love Pump">
+  <meta property="og:title" content="Love Pump — DJ & Selecta · Bergen">
+  <meta property="og:description" content="The sound of the diaspora — from Lisboa and Luanda to Bergen. Mixes, agenda and booking.">
+  <meta property="og:url" content="https://lovepump.no/">
+  <meta property="og:image" content="https://lovepump.no/v2/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
-    <style>
-        body {
-            background-color: #000000;
-            color: #FFFFFF;
-            overflow-x: hidden;
-            cursor: crosshair;
-        }
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a09'/%3E%3Cpath d='M32 8l5.6 18.4H56l-15 11 5.8 18.6L32 44.6 17.2 56 23 37.4 8 26.4h18.4z' fill='%23d4ff3f'/%3E%3C/svg%3E">
 
-        /* Intro Strobe Effect */
-        #intro-overlay {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.mixcloud.com" crossorigin>
+  <link rel="preload" as="image" href="v2/img/lovepump-800.jpg" imagesrcset="v2/img/lovepump-800.jpg 800w, v2/img/lovepump-1400.jpg 1400w" imagesizes="(max-width: 700px) 78vw, 38vw">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
 
-        .flash-img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-            filter: grayscale(100%) contrast(120%);
-        }
+  <!-- Estado inicial: .js e .motion antes do primeiro paint (evita flash).
+       Se o GSAP não carregar em 4s, .motion sai e tudo fica visível. -->
+  <script>
+    (function (d) {
+      var h = d.documentElement;
+      h.classList.remove('no-js');
+      h.classList.add('js');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        h.classList.add('motion');
+        setTimeout(function () { if (!window.__lpReady) h.classList.remove('motion'); }, 4000);
+      }
+    })(document);
+  </script>
 
-        .star-flash {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: white;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            opacity: 0;
-            transform: scale(0);
-            z-index: 10000;
-        }
+  <link rel="stylesheet" href="v2/style.css">
 
-        /* Main Content Visibility */
-        #main-content {
-            opacity: 0;
-        }
-
-        /* Swiper Customization */
-        .swiper-hero {
-            width: 100%;
-            height: 100vh;
-        }
-
-        .swiper-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.4);
-        }
-
-        /* Navigation Hover */
-        .nav-link {
-            position: relative;
-            transition: opacity 0.3s ease;
-        }
-        .nav-link:hover {
-            opacity: 0.6;
-        }
-
-        /* Hide scrollbar */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-
-        .section-title {
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-        }
-
-        /* FAQ Accordion Style */
-        .faq-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .faq-question {
-            cursor: pointer;
-            padding: 2rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, padding 0.5s ease;
-            opacity: 0;
-        }
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding-bottom: 2rem;
-            opacity: 0.7;
-        }
-        .faq-item.active .faq-icon {
-            transform: rotate(45deg);
-        }
-        .faq-icon {
-            transition: transform 0.3s ease;
-        }
-    </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Love Pump",
+    "jobTitle": "DJ",
+    "url": "https://lovepump.no/",
+    "image": "https://lovepump.no/v2/img/og.jpg",
+    "homeLocation": { "@type": "Place", "name": "Bergen, Norway" },
+    "email": "mailto:booking@lovepump.no",
+    "sameAs": [
+      "https://instagram.com/love_pump",
+      "https://soundcloud.com/liliana-palanca"
+    ]
+  }
+  </script>
 </head>
-<body class="antialiased">
+<body>
+  <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
 
-    <!-- Cinematic Intro -->
-    <div id="intro-overlay">
-        <img src="https://images.unsplash.com/photo-1574672280600-4accfa5b6f98?q=80&w=2070" class="flash-img" alt="Flash 1">
-        <img src="https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?q=80&w=2070" class="flash-img" alt="Flash 2">
-        <img src="https://images.unsplash.com/photo-1514525253344-a812bb93b85b?q=80&w=2071" class="flash-img" alt="Flash 3">
-        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070" class="flash-img" alt="Flash 4">
-        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2070" class="flash-img" alt="Flash 5">
-        <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=2069" class="flash-img" alt="Flash 6">
-        <div class="star-flash"></div>
+  <!-- ===== LOADER ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <svg class="loader-star" viewBox="0 0 200 200">
+      <polygon id="loaderStar" points="100,10 120,75 190,75 135,115 155,185 100,145 45,185 65,115 10,75 80,75" />
+    </svg>
+    <div class="loader-foot mono">
+      <span>Love Pump</span>
+      <span id="loaderCount">000</span>
+    </div>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" aria-label="Love Pump">LOVE PUMP<span class="star" aria-hidden="true">✶</span></a>
+
+    <span class="nav-index mono" aria-hidden="true">
+      <span class="nav-index-no" id="navNo">00</span>
+      <span class="nav-index-name" id="navName" data-i18n="nav.intro">Intro</span>
+    </span>
+
+    <nav class="nav-links" aria-label="Main">
+      <a href="#mixes" data-i18n="nav.mixes">Mixes</a>
+      <a href="#agenda" data-i18n="nav.agenda">Agenda</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="no" aria-pressed="false">NO</button>
+        <button type="button" data-set-lang="pt" aria-pressed="false">PT</button>
+      </div>
+      <a class="btn btn--sm nav-book" href="#contact" data-enquire="booking"><span data-i18n="nav.book">Booking</span></a>
+      <button type="button" class="nav-burger" id="burger" aria-expanded="false" aria-controls="menu">
+        <span class="nav-burger-label" data-i18n="nav.menu">Menu</span>
+        <span class="nav-burger-lines" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE MENU ===== -->
+  <div class="menu" id="menu" hidden>
+    <nav class="menu-links" aria-label="Mobile">
+      <a href="#mixes"><span class="mono">01</span><span data-i18n="nav.mixes">Mixes</span></a>
+      <a href="#agenda"><span class="mono">02</span><span data-i18n="nav.agenda">Agenda</span></a>
+      <a href="#about"><span class="mono">03</span><span data-i18n="nav.about">About</span></a>
+      <a href="#gallery"><span class="mono">04</span><span data-i18n="nav.gallery">Gallery</span></a>
+      <a href="#contact"><span class="mono">05</span><span data-i18n="nav.contact">Contact</span></a>
+    </nav>
+    <div class="menu-foot">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="no" aria-pressed="false">NO</button>
+        <button type="button" data-set-lang="pt" aria-pressed="false">PT</button>
+      </div>
+      <a class="mono" href="mailto:booking@lovepump.no">booking@lovepump.no</a>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="top" data-no="00" data-name="nav.intro">
+      <div class="hero-meta mono">
+        <span data-i18n="hero.role">DJ & Selecta</span>
+        <span class="hero-coords">BGO 60.39°N <i>—</i> LIS 38.72°N <i>—</i> LAD 8.84°S</span>
+        <span data-i18n="hero.based">Based in Bergen</span>
+      </div>
+
+      <div class="hero-stage">
+        <figure class="hero-disc" id="heroDisc">
+          <div class="hero-disc-photo">
+            <img src="v2/img/lovepump-800.jpg"
+                 srcset="v2/img/lovepump-800.jpg 800w, v2/img/lovepump-1400.jpg 1400w"
+                 sizes="(max-width: 700px) 78vw, 38vw"
+                 width="800" height="800" fetchpriority="high"
+                 alt="Love Pump playing a set, lit in red and violet">
+          </div>
+          <svg class="hero-ring" id="heroRing" viewBox="0 0 400 400" aria-hidden="true">
+            <defs><path id="ringPath" d="M200,200 m-182,0 a182,182 0 1,1 364,0 a182,182 0 1,1 -364,0" /></defs>
+            <text><textPath href="#ringPath" textLength="1136" lengthAdjust="spacing">LOVE PUMP ✶ KUDURO ✶ AFRO HOUSE ✶ BAILE FUNK ✶ KIZOMBA ✶ AMAPIANO ✶ GQOM ✶</textPath></text>
+          </svg>
+        </figure>
+
+        <h1 class="wordmark" aria-label="Love Pump">
+          <span class="wm-line wm-line--1" aria-hidden="true"><span class="ch">L</span><span class="ch">O</span><span class="ch">V</span><span class="ch">E</span></span>
+          <span class="wm-line wm-line--2" aria-hidden="true"><span class="ch">P</span><span class="ch">U</span><span class="ch">M</span><span class="ch">P</span></span>
+        </h1>
+      </div>
+
+      <div class="hero-foot">
+        <p class="hero-line" data-i18n="hero.line">The sound of the diaspora — carried from Lisboa and Luanda to the far north.</p>
+        <div class="hero-ctas">
+          <a class="btn btn--solid" href="#mixes"><span data-i18n="hero.listen">Listen</span></a>
+          <a class="btn" href="#contact" data-enquire="booking"><span data-i18n="hero.book">Booking</span></a>
+        </div>
+        <span class="hero-scroll mono" aria-hidden="true"><span data-i18n="hero.scroll">Scroll</span><i></i></span>
+      </div>
+    </section>
+
+    <div class="marquee marquee--genres" data-marquee aria-hidden="true">
+      <div class="marquee-track">
+        <span>Kuduro</span><b>✶</b><span>Afro House</span><b>✶</b><span>Baile Funk</span><b>✶</b><span>Kizomba</span><b>✶</b><span>Afrobeats</span><b>✶</b><span>Amapiano</span><b>✶</b><span>Gqom</span><b>✶</b><span>Soulful House</span><b>✶</b>
+      </div>
     </div>
 
-    <div id="main-content">
-        <!-- Navigation -->
-        <nav class="fixed top-0 w-full z-50 px-8 py-10 flex justify-between items-center mix-blend-difference">
-            <a href="#" class="font-heading text-3xl tracking-tighter">LOVE PUMP</a>
-            
-            <div class="hidden md:flex gap-12 font-mono text-[10px] uppercase tracking-[0.4em]">
-                <a href="#bio" class="nav-link">História</a>
-                <a href="#mixes" class="nav-link">Mixes</a>
-                <a href="#faq" class="nav-link">FAQ</a>
-                <a href="#contact" class="nav-link">Booking</a>
-            </div>
+    <!-- ===== MANIFESTO ===== -->
+    <section class="manifesto" id="manifesto">
+      <span class="kicker mono" data-i18n="manifesto.label">Statement</span>
+      <p class="manifesto-text" id="manifestoText" data-i18n="manifesto.text">Club music from <em>Lisboa</em> and <em>Luanda</em>, carried north to <em>Bergen</em>. Kuduro, kizomba, baile funk, amapiano, gqom — rhythms that settle in the hips and stay there.</p>
+    </section>
 
-            <div class="font-mono text-[10px] uppercase tracking-widest opacity-60">
-                Bergen / NO
-            </div>
-        </nav>
+    <!-- ===== MIXES ===== -->
+    <section class="section mixes" id="mixes" data-no="01" data-name="nav.mixes">
+      <header class="sec-head">
+        <span class="sec-no mono">01</span>
+        <span class="sec-label mono" data-i18n="mixes.label">Mixes</span>
+        <h2 class="sec-title"><span class="rv"><span class="rv-i" data-i18n="mixes.title">Selected <em>sounds</em></span></span></h2>
+      </header>
 
-        <!-- Hero Carousel -->
-        <section class="relative h-screen w-full overflow-hidden">
-            <div class="swiper swiper-hero">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://images.unsplash.com/photo-1571266028243-3716f02d2d2e?q=80&w=2070" alt="Performance 1">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://images.unsplash.com/photo-1520110120385-81262c3f5601?q=80&w=2070" alt="Performance 2">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070" alt="Performance 3">
-                    </div>
-                </div>
+      <div class="mixes-grid">
+        <div class="deck" id="deck">
+          <div class="deck-plinth">
+            <div class="deck-platter">
+              <div class="record" id="record">
+                <div class="record-label"><img id="recordArt" src="v2/img/lovepump-800.jpg" alt="" width="200" height="200" loading="lazy"></div>
+              </div>
             </div>
+            <svg class="tonearm" id="tonearm" viewBox="0 0 60 260" aria-hidden="true">
+              <circle cx="30" cy="30" r="18" class="tonearm-base" />
+              <circle cx="30" cy="30" r="6" class="tonearm-pivot" />
+              <path d="M30 30 L30 190 L14 232" class="tonearm-arm" />
+              <rect x="4" y="226" width="22" height="30" rx="3" transform="rotate(20 15 241)" class="tonearm-head" />
+            </svg>
+            <span class="deck-rpm mono">33⅓</span>
+            <span class="deck-led" id="deckLed" aria-hidden="true"></span>
+          </div>
 
-            <div class="absolute inset-0 z-10 flex flex-col justify-center items-center pointer-events-none">
-                <h1 class="font-heading text-[12vw] leading-[0.8] tracking-tighter text-center uppercase">
-                    Liliana<br>Palanca
-                </h1>
-                <p class="font-mono text-[10px] uppercase tracking-[0.8em] mt-12 opacity-70">Dancer • DJ • Curator</p>
+          <div class="deck-now">
+            <p class="deck-kicker mono" id="deckKicker" data-i18n="mixes.idle">Pick a record</p>
+            <h3 class="deck-title" id="deckTitle">Love Pump</h3>
+            <div class="deck-controls">
+              <button type="button" class="icon-btn" id="deckPrev" data-i18n-attr="aria-label:mixes.prev" aria-label="Previous track" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg>
+              </button>
+              <button type="button" class="play-btn" id="deckPlay" aria-label="Play" disabled>
+                <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+                <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>
+              </button>
+              <button type="button" class="icon-btn" id="deckNext" data-i18n-attr="aria-label:mixes.next" aria-label="Next track" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+              </button>
+              <span class="deck-time mono"><span id="deckCur">0:00</span> / <span id="deckDur">0:00</span></span>
             </div>
+            <div class="progress" id="deckProgress" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-i18n-attr="aria-label:mixes.seek" aria-label="Seek">
+              <span class="progress-fill" id="deckFill"></span>
+            </div>
+          </div>
+        </div>
 
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce opacity-30">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
-            </div>
-        </section>
+        <div class="tracks">
+          <ol class="tracklist" id="tracklist">
+            <li class="track-skel"></li><li class="track-skel"></li><li class="track-skel"></li><li class="track-skel"></li>
+          </ol>
+          <p class="tracks-status mono" id="tracksStatus" role="status" data-i18n="mixes.loading">Loading mixes from Mixcloud…</p>
+          <a class="link-arrow" id="mixesMore" href="https://www.mixcloud.com/" target="_blank" rel="noopener" hidden>
+            <span data-i18n="mixes.open">Open on Mixcloud</span><span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
 
-        <!-- Biography Section -->
-        <section id="bio" class="py-40 px-8 md:px-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-1 hidden lg:block">
-                <span class="section-title font-mono text-[10px] uppercase tracking-[0.5em] opacity-30">Identity</span>
-            </div>
-            <div class="lg:col-span-7 space-y-12">
-                <h2 class="font-heading text-5xl md:text-8xl tracking-tighter uppercase leading-none">
-                    De Setúbal<br>para Bergen.
-                </h2>
-                <div class="font-body text-xl md:text-2xl leading-relaxed space-y-8 opacity-80 max-w-3xl">
-                    <p>
-                        Filha de pais angolanos, Liliana Palanca (Love Pump) cresceu entre o Semba de Paulo Flores e as batidas do Kuduro. A sua arte é a ponte entre as suas raízes e a cena eletrónica da Noruega.
-                    </p>
-                    <p>
-                        Inspirada pela irmã Miss Tati, Liliana começou como vocalista e bailarina, incendiando pistas com Afro House. Em 2021, estreou-se como DJ no Hot Hot Hot Festival em Bergen, e desde então tem levado a sua curadoria sonora a rádios como Reprezent (Londres) e Piñata (França).
-                    </p>
-                </div>
-            </div>
-            <div class="lg:col-span-4 flex items-end">
-                <div class="aspect-[3/4] w-full bg-accent overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1000" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" alt="Liliana Portrait">
-                </div>
-            </div>
-        </section>
+      <div class="sc-frame" id="scFrame" aria-hidden="true"></div>
+    </section>
 
-        <!-- Mixes Section -->
-        <section id="mixes" class="py-40 bg-zinc-950 px-8 md:px-24">
-            <div class="flex justify-between items-end mb-20">
-                <h2 class="font-heading text-6xl md:text-9xl tracking-tighter uppercase">Sound</h2>
-                <a href="https://soundcloud.com/liliana-palanca" target="_blank" class="font-mono text-[10px] uppercase tracking-widest border-b border-white pb-2 hover:opacity-50 transition-opacity">Ver SoundCloud</a>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
-                <div class="bg-dark p-12 group hover:bg-white hover:text-dark transition-colors duration-500">
-                    <span class="font-mono text-xs opacity-50 mb-4 block">01 / Radio Mix</span>
-                    <h3 class="font-heading text-3xl uppercase mb-8">Reprezent Radio London</h3>
-                    <p class="font-body opacity-60 group-hover:opacity-100">Uma exploração profunda do Afro-Diaspórico e ritmos ancestrais.</p>
-                </div>
-                <div class="bg-dark p-12 group hover:bg-white hover:text-dark transition-colors duration-500">
-                    <span class="font-mono text-xs opacity-50 mb-4 block">02 / Festival Set</span>
-                    <h3 class="font-heading text-3xl uppercase mb-8">Øya Festival 2023</h3>
-                    <p class="font-body opacity-60 group-hover:opacity-100">Energia pura capturada num dos maiores palcos da Noruega.</p>
-                </div>
-            </div>
-        </section>
+    <!-- ===== AGENDA ===== -->
+    <section class="section agenda" id="agenda" data-no="02" data-name="nav.agenda">
+      <header class="sec-head">
+        <span class="sec-no mono">02</span>
+        <span class="sec-label mono" data-i18n="agenda.label">Agenda</span>
+        <h2 class="sec-title"><span class="rv"><span class="rv-i" data-i18n="agenda.title">Upcoming <em>dates</em></span></span></h2>
+      </header>
 
-        <!-- FAQ Section -->
-        <section id="faq" class="py-40 px-8 md:px-24 bg-black">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="font-heading text-5xl md:text-7xl tracking-tighter uppercase mb-20">Perguntas Frequentes</h2>
-                
-                <div class="space-y-4">
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <h3 class="font-heading text-xl md:text-2xl uppercase">Quais são os géneros musicais predominantes?</h3>
-                            <span class="faq-icon text-3xl">+</span>
-                        </div>
-                        <div class="faq-answer font-body text-lg">
-                            Os meus sets focam-se na diáspora africana, incluindo Afro House, Kuduro, Amapiano, Gqom e Batida, fundindo-os com texturas eletrónicas contemporâneas.
-                        </div>
-                    </div>
+      <ol class="gigs" id="gigsUpcoming"></ol>
+      <p class="gigs-empty" id="gigsEmpty" data-i18n="agenda.empty" hidden>No public dates right now — new ones are on the way.</p>
 
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <h3 class="font-heading text-xl md:text-2xl uppercase">Está disponível para eventos internacionais?</h3>
-                            <span class="faq-icon text-3xl">+</span>
-                        </div>
-                        <div class="faq-answer font-body text-lg">
-                            Sim, viajo regularmente para atuações em festivais, clubes e eventos culturais por toda a Europa e além.
-                        </div>
-                    </div>
+      <div class="agenda-foot">
+        <button type="button" class="link-btn mono" id="pastToggle" aria-expanded="false" aria-controls="gigsPast" hidden>
+          <span id="pastToggleLabel">Past dates</span> <span id="pastCount"></span>
+        </button>
+        <a class="link-arrow" href="#contact" data-enquire="booking"><span data-i18n="agenda.book">Want Love Pump at your venue?</span><span aria-hidden="true">→</span></a>
+      </div>
 
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <h3 class="font-heading text-xl md:text-2xl uppercase">O que é o Klubb Diáspora?</h3>
-                            <span class="faq-icon text-3xl">+</span>
-                        </div>
-                        <div class="faq-answer font-body text-lg">
-                            É um coletivo e conceito de festa fundado em Bergen que celebra a música e cultura africana, criando espaços seguros e vibrantes para a comunidade.
-                        </div>
-                    </div>
+      <ol class="gigs gigs--past" id="gigsPast" hidden></ol>
+    </section>
 
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <h3 class="font-heading text-xl md:text-2xl uppercase">Como posso solicitar um booking?</h3>
-                            <span class="faq-icon text-3xl">+</span>
-                        </div>
-                        <div class="faq-answer font-body text-lg">
-                            Pode utilizar o formulário de contacto abaixo ou enviar um email direto para booking@djlovepump.com com os detalhes do evento.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-40 px-8 md:px-24 border-t border-white/5">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-24">
-                <div class="space-y-12">
-                    <h2 class="font-heading text-6xl md:text-8xl tracking-tighter uppercase">Booking</h2>
-                    <div class="space-y-4 font-mono text-sm tracking-widest">
-                        <p class="opacity-50">Direct Inquiries:</p>
-                        <a href="mailto:booking@djlovepump.com" class="text-2xl md:text-4xl block hover:opacity-50 transition-opacity">booking@djlovepump.com</a>
-                    </div>
-                </div>
-                
-                <form class="space-y-12" action="#" method="POST">
-                    <div class="border-b border-white/20 pb-4">
-                        <input type="text" name="name" required placeholder="NOME" class="bg-transparent w-full font-heading text-2xl focus:outline-none placeholder:opacity-20">
-                    </div>
-                    <div class="border-b border-white/20 pb-4">
-                        <input type="email" name="email" required placeholder="EMAIL" class="bg-transparent w-full font-heading text-2xl focus:outline-none placeholder:opacity-20">
-                    </div>
-                    <div class="border-b border-white/20 pb-4">
-                        <textarea name="message" required placeholder="MENSAGEM" rows="1" class="bg-transparent w-full font-heading text-2xl focus:outline-none placeholder:opacity-20 resize-none"></textarea>
-                    </div>
-                    <button type="submit" class="font-mono text-[10px] uppercase tracking-[0.5em] border border-white px-12 py-6 hover:bg-white hover:text-dark transition-all duration-500 w-full md:w-auto">
-                        Enviar Pedido
-                    </button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="py-20 px-8 border-t border-white/5 flex flex-col items-center gap-12">
-            <div class="flex gap-10">
-                <a href="https://instagram.com/love_pump" target="_blank" class="hover:scale-110 transition-transform">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                </a>
-                <a href="https://soundcloud.com/liliana-palanca" target="_blank" class="hover:scale-110 transition-transform">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V10M18 21V14M6 21v-5M15 21V12M9 21V13M21 21v-4M3 21v-2"/></svg>
-                </a>
-                <a href="mailto:booking@djlovepump.com" class="hover:scale-110 transition-transform">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                </a>
-            </div>
-            <p class="font-mono text-[8px] uppercase tracking-[0.5em] opacity-30">
-                &copy; <span id="year"></span> LOVE PUMP. ALL RIGHTS RESERVED.
-            </p>
-        </footer>
+    <!-- ===== PLAYED AT ===== -->
+    <div class="stages">
+      <span class="stages-label mono" data-i18n="stages.label">Played at</span>
+      <div class="marquee marquee--stages" data-marquee data-direction="-1">
+        <div class="marquee-track" id="stagesTrack"></div>
+      </div>
     </div>
 
-    <script>
-        // Intro Animation Logic
-        window.addEventListener('DOMContentLoaded', () => {
-            const flashImgs = document.querySelectorAll('.flash-img');
-            const starFlash = document.querySelector('.star-flash');
-            const introOverlay = document.querySelector('#intro-overlay');
-            const mainContent = document.querySelector('#main-content');
-            
-            const tl = gsap.timeline();
+    <!-- ===== ABOUT ===== -->
+    <section class="section about" id="about" data-no="03" data-name="nav.about">
+      <header class="sec-head">
+        <span class="sec-no mono">03</span>
+        <span class="sec-label mono" data-i18n="about.label">About</span>
+        <h2 class="sec-title"><span class="rv"><span class="rv-i" data-i18n="about.title">Roots & <em>rhythm</em></span></span></h2>
+      </header>
 
-            flashImgs.forEach((img, index) => {
-                tl.set(img, { display: 'block' }, index * 0.1);
-                if (index > 0) {
-                    tl.set(flashImgs[index-1], { display: 'none' }, index * 0.1);
-                }
-            });
+      <div class="about-grid">
+        <figure class="about-photo">
+          <div class="about-photo-in" id="aboutPhoto">
+            <img src="v2/img/lovepump-portrait.jpg" width="900" height="1200" loading="lazy" decoding="async"
+                 alt="Love Pump at the decks, a projected drawing glowing behind her">
+          </div>
+          <figcaption class="mono"><span data-i18n="about.caption">Love Pump behind the decks</span> — BGO</figcaption>
+        </figure>
 
-            tl.to(starFlash, { 
-                opacity: 1, 
-                scale: 80, 
-                duration: 0.8, 
-                ease: "power4.in" 
-            }, "+=0.1");
+        <div class="about-body">
+          <p class="about-lead" data-i18n="about.p1">Love Pump was born in Portugal to Angolan parents and grew up in Bergen. Her sets draw on the club cultures of Lisboa and Luanda — and on everything in between.</p>
+          <p data-i18n="about.p2">In 2018 she founded Klubb Diaspora with her sister Miss Tati: a multicultural club night built around the sound of the diaspora.</p>
+          <p data-i18n="about.p3">She has played Øya Festival, Borealis, Hot Hot Hot, Landmark and Jaeger, and stages in London, Montpellier and Copenhagen — and is today one of the most influential DJs in Bergen.</p>
 
-            tl.to(introOverlay, {
-                opacity: 0,
-                duration: 0.5,
-                onComplete: () => {
-                    introOverlay.style.display = 'none';
-                }
-            });
+          <dl class="facts">
+            <div><dt class="mono" data-i18n="about.f.based">Based in</dt><dd data-i18n="about.f.based.v">Bergen, Norway</dd></div>
+            <div><dt class="mono" data-i18n="about.f.roots">Roots</dt><dd>Lisboa · Luanda</dd></div>
+            <div><dt class="mono" data-i18n="about.f.crew">Co-founder</dt><dd data-i18n="about.f.crew.v">Klubb Diaspora, 2018 — with Miss Tati</dd></div>
+            <div><dt class="mono" data-i18n="about.f.sound">Sound</dt><dd>Kuduro, afro house, baile funk, kizomba, afrobeats, amapiano, gqom, soulful house</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
 
-            tl.to(mainContent, {
-                opacity: 1,
-                duration: 1
-            }, "-=0.3");
+    <!-- ===== GALLERY ===== -->
+    <section class="section gallery" id="gallery" data-no="04" data-name="nav.gallery">
+      <header class="sec-head">
+        <span class="sec-no mono">04</span>
+        <span class="sec-label mono" data-i18n="gallery.label">Gallery</span>
+        <h2 class="sec-title"><span class="rv"><span class="rv-i" data-i18n="gallery.title">On the <em>floor</em></span></span></h2>
+      </header>
 
-            // Initialize Swiper
-            new Swiper('.swiper-hero', {
-                effect: 'fade',
-                speed: 3000,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                loop: true,
-            });
+      <!-- as fotos vêm de config.gallery; flutuam e são atraídas pelo rato -->
+      <div class="gallery-stage" id="galleryStage">
+        <p class="gallery-hint mono" aria-hidden="true"><span data-i18n="gallery.hint">Click a photo to open</span></p>
+        <ul class="gallery-list" id="galleryList"></ul>
+      </div>
+    </section>
 
-            // Set Year
-            document.getElementById('year').textContent = new Date().getFullYear();
-        });
+    <!-- ===== CONTACT ===== -->
+    <section class="section contact" id="contact" data-no="05" data-name="nav.contact">
+      <header class="sec-head">
+        <span class="sec-no mono">05</span>
+        <span class="sec-label mono" data-i18n="contact.label">Contact</span>
+        <h2 class="sec-title"><span class="rv"><span class="rv-i" data-i18n="contact.title">Get in <em>touch</em></span></span></h2>
+      </header>
 
-        // FAQ Toggle Logic
-        function toggleFaq(element) {
-            const item = element.parentElement;
-            const isActive = item.classList.contains('active');
-            
-            // Close all other items
-            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-            
-            // Toggle current item
-            if (!isActive) {
-                item.classList.add('active');
-            }
-        }
-    </script>
+      <div class="contact-grid">
+        <aside class="contact-aside">
+          <p class="contact-intro" data-i18n="contact.intro">Tell us about the night, the project or the idea.</p>
+          <p class="kicker mono" data-i18n="contact.direct">Direct</p>
+          <a class="contact-mail" href="mailto:booking@lovepump.no">booking@lovepump.no</a>
+          <ul class="socials">
+            <li><a href="https://instagram.com/love_pump" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a></li>
+            <li><a href="https://soundcloud.com/liliana-palanca" target="_blank" rel="noopener" data-sc-profile>SoundCloud <span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </aside>
+
+        <form class="form" id="contactForm" novalidate>
+          <fieldset class="field field--types">
+            <legend class="mono" data-i18n="form.type">What is it about?</legend>
+            <div class="pills">
+              <label class="pill"><input type="radio" name="type" value="booking" checked><span data-i18n="form.type.booking">Booking</span></label>
+              <label class="pill"><input type="radio" name="type" value="partnership"><span data-i18n="form.type.partnership">Partnership</span></label>
+              <label class="pill"><input type="radio" name="type" value="press"><span data-i18n="form.type.press">Press</span></label>
+              <label class="pill"><input type="radio" name="type" value="other"><span data-i18n="form.type.other">Other</span></label>
+            </div>
+          </fieldset>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="f-name"><span data-i18n="form.name">Name</span> <b aria-hidden="true">*</b></label>
+              <input id="f-name" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="f-name-err">
+              <p class="field-err" id="f-name-err"></p>
+            </div>
+            <div class="field">
+              <label for="f-email"><span data-i18n="form.email">Email</span> <b aria-hidden="true">*</b></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" maxlength="160" required aria-describedby="f-email-err">
+              <p class="field-err" id="f-email-err"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-org"><span data-i18n="form.org">Organisation / venue</span> <small data-i18n="form.optional">optional</small></label>
+            <input id="f-org" name="organisation" type="text" autocomplete="organization" maxlength="160">
+          </div>
+
+          <div class="form-row" data-when="booking">
+            <div class="field">
+              <label for="f-date"><span data-i18n="form.date">Event date</span> <small data-i18n="form.optional">optional</small></label>
+              <input id="f-date" name="date" type="date">
+            </div>
+            <div class="field">
+              <label for="f-city"><span data-i18n="form.location">City</span> <small data-i18n="form.optional">optional</small></label>
+              <input id="f-city" name="city" type="text" autocomplete="address-level2" maxlength="120">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-message"><span data-i18n="form.message">Message</span> <b aria-hidden="true">*</b></label>
+            <textarea id="f-message" name="message" rows="5" maxlength="4000" required aria-describedby="f-message-err"></textarea>
+            <p class="field-err" id="f-message-err"></p>
+          </div>
+
+          <!-- honeypot anti-spam -->
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Website</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-foot">
+            <button type="submit" class="btn btn--solid btn--lg" id="formSubmit"><span id="formSubmitLabel" data-i18n="form.send">Send enquiry</span></button>
+            <p class="form-privacy mono" data-i18n="form.privacy">Your details are only used to reply to your enquiry.</p>
+          </div>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <a class="mono" href="#top" data-i18n="footer.top">Back to top</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="no" aria-pressed="false">NO</button>
+        <button type="button" data-set-lang="pt" aria-pressed="false">PT</button>
+      </div>
+    </div>
+    <p class="footer-mark" aria-hidden="true"><span>L</span><span>O</span><span>V</span><span>E</span><span class="sp"> </span><span>P</span><span>U</span><span>M</span><span>P</span></p>
+    <div class="footer-bottom mono">
+      <span class="footer-links">
+        <a href="https://instagram.com/love_pump" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://soundcloud.com/liliana-palanca" target="_blank" rel="noopener" data-sc-profile>SoundCloud</a>
+        <a href="mailto:booking@lovepump.no">Email</a>
+      </span>
+    </div>
+    <p class="footer-credit mono">© <span id="year">2026</span> Love Pump. <span data-i18n="footer.rights">All rights reserved.</span> Created by <a href="https://jousepalas.nl/" target="_blank" rel="noopener">@JousePalas</a></p>
+  </footer>
+
+  <!-- ===== LIGHTBOX (galeria) ===== -->
+  <dialog class="lb" id="lightbox" data-i18n-attr="aria-label:gallery.label" aria-label="Gallery">
+    <div class="lb-top mono">
+      <span class="lb-count" id="lbCount">01 / 15</span>
+      <button type="button" class="lb-btn lb-close" id="lbClose" data-i18n-attr="aria-label:lb.close" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+    </div>
+    <figure class="lb-stage" id="lbStage">
+      <img class="lb-img" id="lbImg" alt="">
+      <figcaption class="lb-caption mono" id="lbCaption"></figcaption>
+    </figure>
+    <div class="lb-bar">
+      <button type="button" class="lb-btn" id="lbPrev" data-i18n-attr="aria-label:lb.prev" aria-label="Previous photo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" class="lb-play" id="lbPlay" aria-label="Play slideshow">
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>
+        <span class="lb-play-label" id="lbPlayLabel">Play · 3s</span>
+      </button>
+      <button type="button" class="lb-btn" id="lbNext" data-i18n-attr="aria-label:lb.next" aria-label="Next photo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <span class="lb-timer" aria-hidden="true"><span id="lbTimer"></span></span>
+  </dialog>
+
+  <!-- ===== MINI PLAYER ===== -->
+  <div class="mini" id="mini" role="region" data-i18n-attr="aria-label:player.label" aria-label="Player">
+    <button type="button" class="play-btn play-btn--sm" id="miniPlay" aria-label="Play">
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></svg>
+    </button>
+    <a class="mini-info" href="#mixes">
+      <span class="mini-kicker mono" id="miniKicker">Now playing</span>
+      <span class="mini-title" id="miniTitle">—</span>
+    </a>
+    <span class="mini-bar" aria-hidden="true"><span id="miniFill"></span></span>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.3.11/dist/lenis.min.js" defer></script>
+  <script src="v2/config.js" defer></script>
+  <script src="v2/i18n.js" defer></script>
+  <script src="v2/script.js" defer></script>
 </body>
 </html>
